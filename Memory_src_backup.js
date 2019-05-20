@@ -48,8 +48,8 @@ function initGame(size) {
 function initVars(size) {
     // Initialiseer alle benodigde variabelen en de velden op het scherm
     setTijden();
-    numberOfCardsLeft = size ** 2
-    numberOfCards = size ** 2;
+    numberOfCardsLeft = size * size;
+    numberOfCards = numberOfCardsLeft;
 }
 
 function vulSpeelveld(size) {
@@ -69,7 +69,7 @@ function vulSpeelveld(size) {
             td.addEventListener("click", cardClicked)
             td.className = "inactive";
             tr.appendChild(td);
-            // console.log(nextLetter);
+            console.log(nextLetter);
         }
         tabel.appendChild(tr);
     }
@@ -81,16 +81,6 @@ function vulSpeelveld(size) {
 
 function showScores() {
     // Vul het topscore lijstje op het scherm.
-    topScoresList = document.getElementById("topscores");
-    $(topScoresList).empty();
-    topScores.sort((a, b) => a.time - b.time)
-    for (let i = 0; i < 5; i++) {
-        score = topScores[i];
-        item = document.createElement("li");
-        value = document.createTextNode(score.name + ": " + score.time);
-        item.appendChild(value);
-        topScoresList.appendChild(item);
-    }
 }
 
 
@@ -126,17 +116,12 @@ function setTijden() {
     // bereken de verlopen tijd, de gemiddlede tijd en het verschil tussen
     // de huidige speeltijd en de gemiddelde tijd en vul de elementen in de HTML.
     // Vul ook het aantal gevonden kaarten
-    timePassed = (typeof startTijd === "undefined") ? 0 : getSeconds() - startTijd
-    document.getElementById("tijd").innerHTML = timePassed
-
-    averageTime = (aantalTijden === 0) ? 0 : Math.round(totaalTijd / aantalTijden)
-    timeDifference = (typeof startTijd === "undefined") ? 0 : timePassed - averageTime
-
-    uhmString = (timeDifference >= 0) ? "+" : "-"
-    document.getElementById("gemiddeld").innerHTML = averageTime + " s" + "( " + uhmString + timeDifference + ")"
-
-    numberOfCardsFound = (isNaN(numberOfCards - numberOfCardsLeft)) ? 0 : (numberOfCards - numberOfCardsLeft) / 2;
-    document.getElementById("gevonden").innerHTML = numberOfCardsFound
+    if (startTijd == undefined) {
+        document.getElementById("tijd").innerHTML = totaalTijd
+    } else {
+        totaalTijd = getSeconds() - startTijd
+        document.getElementById("tijd").innerHTML = totaalTijd
+    }
 }
 
 function getSeconds() {
@@ -153,7 +138,7 @@ function tijdBijhouden() {
     } else {
         setTijden();
         // Roep hier deze functie over 500 miliseconden opnieuw aan
-        intervalID = setInterval(tijdBijhouden, 500)
+        tijdID = window.setInterval(tijdBijhouden, 500)
     }
 }
 
@@ -161,9 +146,6 @@ function checkDerdeKaart() {
     // Controleer of het de derde kaart is die wordt aangeklikt.
     // Als dit zo is kunnen de geopende kaarten gedeactiveerd (gesloten) worden.
     if (firstCard != undefined && secondCard != undefined) {
-        $("#timeLeft").stop()
-        clearTimeout(tijdID)
-        tijdID = 0
         deactivateCards()
     }
 }
@@ -187,16 +169,10 @@ function turnCard(card) {
 
 function deactivateCards() {
     // Functie om de twee omgedraaide kaarten weer terug te draaien
-    if (firstCard != undefined && secondCard != undefined) {
-        toggleCard(firstCard)
-        firstCard = undefined
-        toggleCard(secondCard)
-        secondCard = undefined
-        // $("#timeLeft").stop()
-        $("#timeLeft").animate({
-            width: "185px"
-        }, 0);
-    }
+    toggleCard(firstCard)
+    firstCard = undefined
+    toggleCard(secondCard)
+    secondCard = undefined
 }
 
 function toggleCard(element) {
@@ -219,12 +195,21 @@ function checkKaarten() {
         secondCard.className = "found"
         secondCard.removeEventListener("click", cardClicked)
         secondCard = undefined
-        numberOfCardsLeft -= 2
+        numberOfCardsLeft - 2
     } else {
-        tijdID = setTimeout(deactivateCards, 3000);
-        $("#timeLeft").animate({
-            width: "0px"
-        }, 3000);
+        var counter = 5;
+        var timeLeft = document.getElementById("timeLeft");
+        timeLeft.innerHTML = counter;
+        intervalID = undefined;
+        intervalID = function() {
+            counter -= 1;
+            timeLeft.innerHTML = counter;
+            if (counter == 0) {
+                window.clearInterval(test);
+                deactivateCards();
+            }
+        }
+        var test = window.setInterval(intervalID, 1000)
     }
     // Kijk of de beide kaarten gelijk zijn. Als dit zo is moet het aantal gevonden paren
     // opgehord worden, het aantal resterende kaarten kleiner worden en ervoor
@@ -236,24 +221,13 @@ function checkKaarten() {
 
 
 function endGame() {
+    window.clearInterval(tijdID);
     // Bepaal de speeltijd, chekc topscores en doe de overige
     // administratie.
-    time = getSeconds() - startTijd
-    name = prompt("GET OVER HERE", "")
-    updateTopScores(name, time)
-    showScores()
-    totaalTijd += time
-    aantalTijden++
-    startTijd = undefined
-    initGame($("#size").val())
 }
 
-function updateTopScores(name, speelTijd) {
+function updateTopScores(speelTijd) {
     // Voeg de aangeleverde speeltijd toe aal de lijst met topscores
-    topScores.push({
-        name: name,
-        time: speelTijd
-    })
 }
 
 // Deze functie ververst de kleuren van de kaarten van het type dat wordt meegegeven.
