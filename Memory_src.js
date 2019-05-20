@@ -284,5 +284,13 @@ function shuffle(array) {
 $(document).ready(function() {
     $("#opnieuw").click(function() {
         initGame($("#size").val());
+        clearTimeout(tijdID);
+        tijdID = 0;
+        $("#timeleft").stop();
+        $("#timeLeft").animate({
+            width: "185px"
+        }, 0);
+        clearInterval(intervalID);
+        startTijd = undefined;
     });
 });
