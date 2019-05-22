@@ -48,8 +48,8 @@ function initGame(size) {
 function initVars(size) {
     // Initialiseer alle benodigde variabelen en de velden op het scherm
     setTijden();
-    numberOfCardsLeft = size * size;
-    numberOfCards = numberOfCardsLeft;
+    numberOfCardsLeft = size ** 2
+    numberOfCards = size ** 2;
 }
 
 function vulSpeelveld(size) {
@@ -69,7 +69,7 @@ function vulSpeelveld(size) {
             td.addEventListener("click", cardClicked)
             td.className = "inactive";
             tr.appendChild(td);
-            console.log(nextLetter);
+            // console.log(nextLetter);
         }
         tabel.appendChild(tr);
     }
@@ -81,18 +81,18 @@ function vulSpeelveld(size) {
 
 function showScores() {
     // Vul het topscore lijstje op het scherm.
+    topScoresList = document.getElementById("topscores");
+    $(topScoresList).empty();
+    topScores.sort((a, b) => a.time - b.time)
+    for (let i = 0; i < 5; i++) {
+        score = topScores[i];
+        item = document.createElement("li");
+        value = document.createTextNode(score.name + ": " + score.time);
+        item.appendChild(value);
+        topScoresList.appendChild(item);
+    }
 }
 
-function setTijden() {
-    // bereken de verlopen tijd, de gemiddlede tijd en het verschil tussen
-    // de huidige speeltijd en de gemiddelde tijd en vul de elementen in de HTML.
-    // Vul ook het aantal gevonden kaarten
-}
-
-function getSeconds() {
-    // Een functie om de Systeemtijd in seconden in plaats van miliseconden
-    // op te halen. Altijd handig.
-}
 
 var nextLetter = function(size) {
     var letterArray = "AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPPQQRRSSTTUUVVWWXXYYZZ".substring(0, size * size).split('');
@@ -116,12 +116,54 @@ function cardClicked(card) {
 function checkStarttijd() {
     // Controleer of de startijd van het spel gezet is, i.e. het spel al gestart was.
     // Als dat niet zo is doe dat nu, en start de timeOut voor het bijhouden van de tijd.
+    if (startTijd == undefined) {
+        startTijd = getSeconds()
+    }
+    setTimeout(tijdBijhouden(), 500)
+}
+
+function setTijden() {
+    // bereken de verlopen tijd, de gemiddlede tijd en het verschil tussen
+    // de huidige speeltijd en de gemiddelde tijd en vul de elementen in de HTML.
+    // Vul ook het aantal gevonden kaarten
+    timePassed = (typeof startTijd === "undefined") ? 0 : getSeconds() - startTijd
+    document.getElementById("tijd").innerHTML = timePassed
+
+    averageTime = (aantalTijden === 0) ? 0 : Math.round(totaalTijd / aantalTijden)
+    timeDifference = (typeof startTijd === "undefined") ? 0 : timePassed - averageTime
+
+    uhmString = (timeDifference >= 0) ? "+" : "-"
+    document.getElementById("gemiddeld").innerHTML = averageTime + " s" + "( " + uhmString + timeDifference + ")"
+
+    numberOfCardsFound = (isNaN(numberOfCards - numberOfCardsLeft)) ? 0 : (numberOfCards - numberOfCardsLeft) / 2;
+    document.getElementById("gevonden").innerHTML = numberOfCardsFound
+}
+
+function getSeconds() {
+    // Een functie om de Systeemtijd in seconden in plaats van miliseconden
+    // op te halen. Altijd handig.
+    return Math.round(new Date().getTime() / 1000)
+}
+
+// De functie tijdBijhouden moet elke halve seconde uitgevoerd worden om te controleren of
+// het spel klaar is en de informatie op het scherm te verversen.
+function tijdBijhouden() {
+    if (numberOfCardsLeft == 0) {
+        endGame();
+    } else {
+        setTijden();
+        // Roep hier deze functie over 500 miliseconden opnieuw aan
+        intervalID = setInterval(tijdBijhouden, 500)
+    }
 }
 
 function checkDerdeKaart() {
     // Controleer of het de derde kaart is die wordt aangeklikt.
     // Als dit zo is kunnen de geopende kaarten gedeactiveerd (gesloten) worden.
     if (firstCard != undefined && secondCard != undefined) {
+        $("#timeLeft").stop()
+        clearTimeout(tijdID)
+        tijdID = 0
         deactivateCards()
     }
 }
@@ -145,10 +187,16 @@ function turnCard(card) {
 
 function deactivateCards() {
     // Functie om de twee omgedraaide kaarten weer terug te draaien
-    toggleCard(firstCard)
-    firstCard = undefined
-    toggleCard(secondCard)
-    secondCard = undefined
+    if (firstCard != undefined && secondCard != undefined) {
+        toggleCard(firstCard)
+        firstCard = undefined
+        toggleCard(secondCard)
+        secondCard = undefined
+        // $("#timeLeft").stop()
+        $("#timeLeft").animate({
+            width: "185px"
+        }, 0);
+    }
 }
 
 function toggleCard(element) {
@@ -171,9 +219,13 @@ function checkKaarten() {
         secondCard.className = "found"
         secondCard.removeEventListener("click", cardClicked)
         secondCard = undefined
-        numberOfCardsLeft - 2
+        numberOfCardsLeft -= 2
+    } else {
+        tijdID = setTimeout(deactivateCards, 3000);
+        $("#timeLeft").animate({
+            width: "0px"
+        }, 3000);
     }
-
     // Kijk of de beide kaarten gelijk zijn. Als dit zo is moet het aantal gevonden paren
     // opgehord worden, het aantal resterende kaarten kleiner worden en ervoor
     // gezorgd worden dat er niet meer op de kaarten geklikt kan worden. De kaarten
@@ -182,24 +234,26 @@ function checkKaarten() {
     // de timeleft geanimeerd worden zodat deze laat zien hoeveel tijd er nog is.
 }
 
-// De functie tijdBijhouden moet elke halve seconde uitgevoerd worden om te controleren of
-// het spel klaar is en de informatie op het scherm te verversen.
-function tijdBijhouden() {
-    if (numberOfCardsLeft == 0) {
-        endGame();
-    } else {
-        setTijden();
-        // Roep hier deze functie over 500 miliseconden opnieuw aan
-    }
-}
 
 function endGame() {
     // Bepaal de speeltijd, chekc topscores en doe de overige
     // administratie.
+    time = getSeconds() - startTijd
+    name = prompt("GET OVER HERE", "")
+    updateTopScores(name, time)
+    showScores()
+    totaalTijd += time
+    aantalTijden++
+    startTijd = undefined
+    initGame($("#size").val())
 }
 
-function updateTopScores(speelTijd) {
+function updateTopScores(name, speelTijd) {
     // Voeg de aangeleverde speeltijd toe aal de lijst met topscores
+    topScores.push({
+        name: name,
+        time: speelTijd
+    })
 }
 
 // Deze functie ververst de kleuren van de kaarten van het type dat wordt meegegeven.
