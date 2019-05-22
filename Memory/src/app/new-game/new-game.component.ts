@@ -12,4 +12,12 @@ export class NewGameComponent implements OnInit {
   ngOnInit() {
   }
 
+  newGame(){
+    // TODO: reset timers, create new playingfield
+    // TODO: update top5
+  }
+
+  updateTopScores(){
+    
+  }
 }
