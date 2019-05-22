@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Player } from './player'
+import { Player } from '../player'
 
 @Component({
   selector: 'app-top5',
@@ -9,7 +9,7 @@ import { Player } from './player'
 })
 export class Top5Component implements OnInit {
 
-  const TOP5: Player[] =  [{
+   TOP5: Player[] =  [{
         name: "Barack Obama",
         time: 200
     },
