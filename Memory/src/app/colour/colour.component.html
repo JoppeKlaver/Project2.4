@@ -1,3 +1,3 @@
-<p>
-  colour works!
-</p>
+<p><b>Kleur dichte kaarten: </b><input type="color" (change)="changeInactiveColour($event)" value="{{inactiveColour}}"><h1 [ngStyle]="{'color': inactiveColour}">Gekozen kleur dichte kaarten</h1></p>
+<p><b>Kleur open kaarten: </b><input type="color" (change)="changeActiveColour($event)" value="{{activeColour}}"><h1 [ngStyle]="{'color': activeColour}">Gekozen kleur open kaarten</h1></p>
+<p><b>Kleur gevonden kaarten: </b><input type="color" (change)="changeFoundColour($event)" value="{{foundColour}}"><h1 [ngStyle]="{'color': foundColour}">Gekozen kleur gevonden kaarten</h1></p>
