@@ -1,0 +1,20 @@
+<div><p><b>Kleur dichte kaarten: </b><input type="color" [(ngModel)]="this.gameService.inactiveColour" value="{{this.gameService.inactiveColour}}"></p>
+<p><b>Kleur open kaarten: </b><input type="color" [(ngModel)]="this.gameService.activeColour" value="{{this.gameService.activeColour}}"></p>
+<p><b>Kleur gevonden kaarten: </b><input type="color" [(ngModel)]="this.gameService.foundColour" value="{{this.gameService.foundColour}}"></p></div>
+
+
+<p><b>Gemiddelde speeltijd: </b><span id="averageTime">{{message}}s ({{timeDifference}}s)</span></p>
+
+<p><b>Karakter op de kaart: </b>
+<select name="character" id="character" [(ngModel)]="this.gameService.character" >
+  <option *ngFor="let char of character" value="{{char.char}}">{{char.char}}</option>
+</select>
+</p>
+
+<p><b>Afmeting van het bord: </b>
+<select name="size" id="size" [(ngModel)]="this.gameService.size">
+  <option *ngFor="let number of size" value="{{ number.number }}">{{ number.number}}</option>
+</select>
+</p>
+
+<p><button (click)="this.gameService.restart()">Nieuw spel</button></p>

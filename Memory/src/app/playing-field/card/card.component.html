@@ -1,0 +1,13 @@
+<table id="playing-field">
+  <tr *ngFor="let row of this.gameService.playingField.Rows">
+    <td
+      *ngFor="let card of row.cards"
+      class="inactive"
+      [ngStyle]="{'background-color': 'red'}"
+      [id]="card"
+      (click)="cardClicked($event)"
+    >
+      {{ this.gameService.character }}
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,18 @@
+div {
+  width: 66vmin;
+  height: 20px;
+  margin: 0 auto;
+  border-radius: 9px;
+  margin-top: 5vmin;
+}
+
+.progressbar {
+  background-color: #d8d8d8;
+}
+.progressbar-value {
+  margin: 0;
+  width: 75%;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  background-color: #00797b;
+}

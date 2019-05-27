@@ -1,0 +1,31 @@
+table#playing-field {
+  width: 85vmin;
+  height: 85vmin;
+  border-spacing: 2vmin;
+  background-color: #242424;
+  table-layout: fixed;
+  margin: auto;
+}
+
+table#playing-field td {
+  cursor: pointer;
+  color: #d8d8d8;
+  font: bold 6vmin SF Mono;
+  text-align: center;
+  user-select: none;
+}
+
+td {
+  border-radius: 19px;
+}
+
+td.inactive {
+}
+
+td.active {
+  cursor: default;
+}
+
+td.found {
+  cursor: default;
+}
