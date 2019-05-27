@@ -137,8 +137,4 @@ export class CardComponent implements OnInit {
     });
     this.gameService.averageGameTime = Math.floor(totalTime / numberOfTimes);
   }
-
-  updateColor(){
-
-  }
 }
