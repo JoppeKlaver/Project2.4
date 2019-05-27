@@ -6,23 +6,27 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./progress-bar.component.css"]
 })
 export class ProgressBarComponent implements OnInit {
+
+  interval;
+  barValue = 0;
+
   constructor() {}
 
-  public columns;
+  ngOnInit(): void {
 
-  public ngOnInit(): void {
-    let percent = 0;
-    const intervalId = setInterval(() => {
-      this.setProgressbarWidth(percent);
-      percent++;
-      // percent = getNewPercentValue(percent);
-      if (percent > 100) {
-        clearInterval(intervalId);
-      }
-    }, 500);
   }
 
-  public setProgressbarWidth(percent) {
-    this.columns = percent + "*," + (100 - percent) + "*";
+  showTime() {
+    if(this.barValue <= 100) {
+      this.interval = setInterval(() => {
+        this.barValue += 1;
+      }, 30);
+    }
   }
+
+  clearBar() {
+    clearInterval(this.interval)
+    this.barValue = 0;
+  }
+
 }
