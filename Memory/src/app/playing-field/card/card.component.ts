@@ -116,15 +116,15 @@ export class CardComponent implements OnInit {
   }
 
   updateScores(newScore) {
+    if (this.gameService.topScores.length >= 5) {
+      this.gameService.topScores.pop();
+    }
     this.gameService.topScores.push(newScore);
     this.updateAverageGameTime();
     if (this.gameService.topScores.length > 1) {
       this.gameService.topScores.sort((a, b) => {
         return a.time - b.time;
       });
-      if (this.gameService.topScores.length > 5) {
-        this.gameService.topScores.pop();
-      }
     }
   }
 

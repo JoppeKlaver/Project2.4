@@ -3,15 +3,26 @@
     <tr>
       <td>
         <b>Karakter op kaarten:</b>
-        <select name="character" id="character" [(ngModel)]="this.gameService.character">
-            <option *ngFor="let char of character" value="{{char.char}}">{{ char.char }}</option>
-          </select>
+        <select
+          name="character"
+          id="character"
+          [(ngModel)]="this.gameService.character"
+        >
+          <option *ngFor="let char of character" value="{{ char.char }}">{{
+            char.char
+          }}</option>
+        </select>
         <br />
         <br />
         <b>Afmeting bord:</b>
         <select name="size" id="size" [(ngModel)]="this.gameService.size">
-          <option *ngFor="let number of size" value="{{number.number}}">{{ number.number }}</option>
+          <option *ngFor="let number of size" value="{{ number.number }}">{{
+            number.number
+          }}</option>
         </select>
+        <br />
+        <br />
+        <b>Average game time: {{ this.gameService.averageGameTime }}</b>
       </td>
     </tr>
     <tr>
@@ -24,5 +35,6 @@
       <td>Found card color: <input type="color" [(ngModel)]="this.gameService.foundColour" value={{this.gameService.foundColor}}></td>
     </tr>
   </table>
+
   <button (click)="this.gameService.restart()">Hoeft niet</button>
 </div>
