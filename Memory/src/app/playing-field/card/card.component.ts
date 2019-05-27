@@ -8,13 +8,10 @@ import { GameService } from "src/app/services/game.service";
 })
 export class CardComponent implements OnInit {
   displayTimer: any;
-  numberArray = new Array();
 
   constructor(public gameService: GameService) {}
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   cardClicked(event: {
     target: { id: any; className: string; innerText: any };
@@ -30,7 +27,8 @@ export class CardComponent implements OnInit {
         event.target.className = "active";
         this.gameService.firstCard = card;
 
-        event.target.innerText = this.gameService.cards[card];
+        let character = this.gameService.cards[card];
+        event.target.innerText = character;
         this.gameService.startTime();
       } else if (
         this.gameService.firstCard != undefined &&
@@ -39,8 +37,8 @@ export class CardComponent implements OnInit {
         this.gameService.temporarySecondCard = event.target;
         event.target.className = "active";
         this.gameService.secondCard = card;
-
-        event.target.innerText = this.gameService.cards[card];;
+        let character = this.gameService.cards[card];
+        event.target.innerText = character;
         this.compareCards(
           this.gameService.temporaryFirstCard,
           this.gameService.temporarySecondCard

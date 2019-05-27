@@ -1,5 +1,20 @@
 h1 {
-  color: white;
+  color: #d8d8d8;
   font: bold 6vmin SF Mono;
   text-align: center;
+}
+
+div#wrapper {
+  width: 98vw;
+  overflow: show;
+  float: center;
+}
+
+div#field {
+  float: center;
+}
+
+div#config {
+  margin-top: -50vh;
+  float: right;
 }

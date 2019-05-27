@@ -7,12 +7,6 @@ export class GameService {
   playingField = { Rows: [] };
   size: number;
 
-  inactiveColour = "#f73333";
-  activeColour = "#3444bc";
-  foundColour = "#0cff00";
-
-  mode: string;
-
   cards = [];
   character: string;
 
@@ -28,14 +22,35 @@ export class GameService {
   timePassed: number;
   numberOfPairsFound: number;
 
-  topScores = [];
+  topScores = [
+    {
+      name: "Barack Obama",
+      time: 200
+    },
+    {
+      name: "Bernie Sanders",
+      time: 300
+    },
+    {
+      name: "Hillary Clinton",
+      time: 400
+    },
+    {
+      name: "Jeb Bush",
+      time: 500
+    },
+    {
+      name: "Donald Trump",
+      time: 600
+    }
+  ];
   averageGameTime: number;
 
   constructor() {
     this.timeToDisplay = 3;
     this.timePassed = 0;
     this.numberOfPairsFound = 0;
-    this.character = "*";
+    this.character = "#";
     this.size = 6;
     this.averageGameTime = 0;
     this.generateBoard();

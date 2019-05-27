@@ -3,7 +3,6 @@
     <td
       *ngFor="let card of row.cards"
       class="inactive"
-      [ngStyle]="{'background-color': 'red'}"
       [id]="card"
       (click)="cardClicked($event)"
     >

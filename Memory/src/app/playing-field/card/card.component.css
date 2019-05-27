@@ -1,6 +1,6 @@
 table#playing-field {
-  width: 85vmin;
-  height: 85vmin;
+  width: 65vmin;
+  height: 65vmin;
   border-spacing: 2vmin;
   background-color: #242424;
   table-layout: fixed;
@@ -20,12 +20,15 @@ td {
 }
 
 td.inactive {
+  background-color: #70467a;
 }
 
 td.active {
+  background-color: #00797b;
   cursor: default;
 }
 
 td.found {
+  background-color: #c076cb;
   cursor: default;
 }
