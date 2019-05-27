@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TestService } from '../test.service';
+import { TimeService } from '../time.service';
 
 @Component({
   selector: 'app-options',
@@ -6,11 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./options.component.css']
 })
 export class OptionsComponent implements OnInit {
-  selectedCharacter = "*";
+  message:number;
+  time:number;
+  selectedCharacter: String = "*";
   selectedSize = 6;
-  timePlaying = 0;
+  timePlayed = 0;
   timeDifference = 0;
-  interval;
+  interval = undefined;
+  averageTime = 0;
 
   character = [ {char: "*"},
                 {char: "#"},
@@ -22,15 +27,23 @@ export class OptionsComponent implements OnInit {
           {number: 4},
           {number: 2}];
 
-  constructor() { }
+  constructor(private data: TestService, private timeService: TimeService) {
+    this.data.currentMessage.subscribe(message => this.message = message)
+    this.timeService.currentMessage.subscribe(message => this.time = message)
+  }
 
   ngOnInit() {
+    this.timeDifference = 0 - this.message;
   }
+
 
   startTimer(){
     if(!this.interval){
+      this.timeDifference = 0 - this.message;
       this.interval = setInterval(() => {
-        this.timePlaying += 1, this.timeDifference += 1;
+        this.timePlayed += 1;
+        this.timeDifference +=1;
+        this.timeService.changeMessage(this.timePlayed)
       }, 1000);
     }
   }
@@ -38,8 +51,9 @@ export class OptionsComponent implements OnInit {
   stopTimer(){
     clearInterval(this.interval);
     this.interval = undefined;
-    this.timeDifference = this.timePlaying - (2*this.timePlaying);
-    this.timePlaying = 0;
+    this.timePlayed = 0;
+    this.timeService.changeMessage(0);
+    this.timeDifference = 0 - this.message;
   }
 
   selectCharacterHandler(event: any){

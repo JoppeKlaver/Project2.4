@@ -1,13 +1,13 @@
-<p><b>Gemiddelde speeltijd: </b><span id="averageTime">{{timePlaying}}s ({{timeDifference}}s)</span></p>
+<p><b>Gemiddelde speeltijd: </b><span id="averageTime">{{message}}s ({{timeDifference}}s)</span></p>
 
 <p><b>Karakter op de kaart: </b>
-<select class="select" name="character" id="character" (change)="selectCharacterHandler($event)" >
+<select name="character" id="character" (change)="selectCharacterHandler($event)" >
   <option *ngFor="let char of character" value="{{char.char}}">{{char.char}}</option>
 </select>
 </p>
 
 <p><b>Afmeting van het bord: </b>
-<select class="select" name="size" id="size" (change)="selectSizeHandler($event)">
+<select name="size" id="size" (change)="selectSizeHandler($event)">
   <option *ngFor="let number of size" value="{{ number.number }}">{{ number.number}}</option>
 </select>
 </p>
