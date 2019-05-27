@@ -8,10 +8,18 @@ import { GameService } from "src/app/services/game.service";
 })
 export class CardComponent implements OnInit {
   displayTimer: any;
+  root = document.documentElement;
+
 
   constructor(public gameService: GameService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    setInterval(() => {
+      this.root.style.setProperty('--inactive', this.gameService.inactiveColour);
+      this.root.style.setProperty('--active', this.gameService.activeColour);
+      this.root.style.setProperty('--found', this.gameService.foundColour);
+  }, 10);
+  }
 
   cardClicked(event: {
     target: { id: any; className: string; innerText: any };
@@ -75,6 +83,7 @@ export class CardComponent implements OnInit {
         this.deactivateCards();
       } else {
         this.gameService.timeToDisplay--;
+        this.updateColor();
       }
     }, 1000);
   }
@@ -127,5 +136,9 @@ export class CardComponent implements OnInit {
       totalTime += score.time;
     });
     this.gameService.averageGameTime = Math.floor(totalTime / numberOfTimes);
+  }
+
+  updateColor(){
+
   }
 }

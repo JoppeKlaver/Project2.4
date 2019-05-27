@@ -20,15 +20,15 @@ td {
 }
 
 td.inactive {
-  background-color: #70467a;
+  background-color: var(--inactive);
 }
 
 td.active {
-  background-color: #00797b;
+  background-color: var(--active);
   cursor: default;
 }
 
 td.found {
-  background-color: #c076cb;
+  background-color: var(--found);
   cursor: default;
 }

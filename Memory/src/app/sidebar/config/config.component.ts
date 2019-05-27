@@ -18,16 +18,5 @@ export class ConfigComponent implements OnInit {
   constructor(public gameService: GameService) {}
 
   ngOnInit() {}
-
-  restart() {
-    this.gameService.restart();
-  }
-
-  changeCharacter(character: string) {
-    this.gameService.character = character;
-  }
-
-  changeSize(size: number) {
-    this.gameService.size = size;
-  }
+  
 }

@@ -10,6 +10,10 @@ export class GameService {
   cards = [];
   character: string;
 
+  inactiveColour: string = "#42f4bf";
+  activeColour: string = "#86a509";
+  foundColour: string = "#6cff56";
+
   firstCard: number;
   secondCard: number;
   temporaryFirstCard: any;
