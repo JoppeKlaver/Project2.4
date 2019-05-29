@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
   <table>
     <tr>
       <td>
@@ -26,15 +26,80 @@
       </td>
     </tr>
     <tr>
-      <td>Closed card color: <input type="color" [(ngModel)]="this.gameService.inactiveColour" value={{this.gameService.inactiveColour}}></td>
+      <td>
+        Closed card color:
+        <input
+          type="color"
+          [(ngModel)]="this.gameService.inactiveColour"
+          value="{{ this.gameService.inactiveColour }}"
+        />
+      </td>
     </tr>
     <tr>
-      <td>Open card color: <input type="color" [(ngModel)]="this.gameService.activeColour" value={{this.gameService.activeColour}}></td>
+      <td>
+        Open card color:
+        <input
+          type="color"
+          [(ngModel)]="this.gameService.activeColour"
+          value="{{ this.gameService.activeColour }}"
+        />
+      </td>
     </tr>
     <tr>
-      <td>Found card color: <input type="color" [(ngModel)]="this.gameService.foundColour" value={{this.gameService.foundColor}}></td>
+      <td>
+        Found card color:
+        <input
+          type="color"
+          [(ngModel)]="this.gameService.foundColour"
+          value="{{ this.gameService.foundColor }}"
+        />
+      </td>
     </tr>
   </table>
 
   <button (click)="this.gameService.restart()">Hoeft niet</button>
+</div> -->
+
+<div class="card">
+  <h3 class="card-header text-center">Settings</h3>
+  <div class="card-body small">
+    <div class="form-group">
+      Size
+      <select name="size" id="size" [(ngModel)]="this.gameService.size">
+        <option *ngFor="let number of size" value="{{ number.number }}">{{
+          number.number
+        }}</option></select
+      ><br />
+      Character
+      <select
+        name="character"
+        id="character"
+        [(ngModel)]="this.gameService.character"
+      >
+        <option *ngFor="let char of character" value="{{ char.char }}">{{
+          char.char
+        }}</option></select
+      ><br /><br />
+      Average game time: {{ this.gameService.averageGameTime }}<br /><br />
+      Closed card color:
+      <input
+        type="color"
+        [(ngModel)]="this.gameService.inactiveColour"
+        value="{{ this.gameService.inactiveColour }}"
+      /><br />
+      Open card color:
+      <input
+        type="color"
+        [(ngModel)]="this.gameService.activeColour"
+        value="{{ this.gameService.activeColour }}"
+      /><br />
+      Found card color:
+      <input
+        type="color"
+        [(ngModel)]="this.gameService.foundColour"
+        value="{{ this.gameService.foundColor }}"
+      /><br /><br />
+      <button (click)="this.gameService.restart()">Restart</button>
+    </div>
+  </div>
 </div>

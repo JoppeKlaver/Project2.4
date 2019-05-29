@@ -1,1 +1,15 @@
-<div><li *ngFor="let score of this.gameService.topScores">{{score.name}}: {{score.time}}s</li></div>
+<div class="card">
+  <h3 class="card-header text-center">Top scores</h3>
+  <div class="card-body">
+    <!-- <li *ngFor="let score of this.gameService.topScores">
+      {{ score.name }}: {{ score.time }}s
+    </li> -->
+    <div class="container">
+      <ul class="list-group list-group-flush small" *ngFor="let score of this.gameService.topScores">
+        <li class="list-group-item">
+          {{ score.name }}<span class="badge">{{ score.time }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

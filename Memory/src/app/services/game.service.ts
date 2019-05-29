@@ -10,9 +10,9 @@ export class GameService {
   cards = [];
   character: string;
 
-  inactiveColour: string = "#42f4bf";
-  activeColour: string = "#86a509";
-  foundColour: string = "#6cff56";
+  inactiveColour: string = "#745282";
+  activeColour: string = "#378285";
+  foundColour: string = "#bd86cc";
 
   firstCard: number;
   secondCard: number;

@@ -1,10 +1,8 @@
 table#playing-field {
-  width: 65vmin;
-  height: 65vmin;
-  border-spacing: 2vmin;
-  background-color: #242424;
-  table-layout: fixed;
-  margin: auto;
+  width: 50vmin;
+  height: 50vmin;
+  border-collapse: separate;
+  border-spacing: 3%;
 }
 
 table#playing-field td {

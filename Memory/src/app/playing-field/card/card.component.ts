@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { GameService } from "src/app/services/game.service";
+import { ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 
 @Component({
   selector: "card",
@@ -9,16 +10,18 @@ import { GameService } from "src/app/services/game.service";
 export class CardComponent implements OnInit {
   displayTimer: any;
   root = document.documentElement;
-
-
   constructor(public gameService: GameService) {}
 
   ngOnInit() {
+    this.updateAverageGameTime();
     setInterval(() => {
-      this.root.style.setProperty('--inactive', this.gameService.inactiveColour);
-      this.root.style.setProperty('--active', this.gameService.activeColour);
-      this.root.style.setProperty('--found', this.gameService.foundColour);
-  }, 10);
+      this.root.style.setProperty(
+        "--inactive",
+        this.gameService.inactiveColour
+      );
+      this.root.style.setProperty("--active", this.gameService.activeColour);
+      this.root.style.setProperty("--found", this.gameService.foundColour);
+    }, 100);
   }
 
   cardClicked(event: {
@@ -80,10 +83,9 @@ export class CardComponent implements OnInit {
       if (this.gameService.timeToDisplay == 0) {
         clearInterval(this.gameService.displayTimer);
         this.gameService.timeToDisplay = 3;
-        this.deactivateCards();
+        this.deactivateCards()
       } else {
         this.gameService.timeToDisplay--;
-        this.updateColor();
       }
     }, 1000);
   }

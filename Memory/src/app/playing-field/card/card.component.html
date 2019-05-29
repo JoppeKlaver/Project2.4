@@ -1,12 +1,14 @@
-<table id="playing-field">
-  <tr *ngFor="let row of this.gameService.playingField.Rows">
-    <td
-      *ngFor="let card of row.cards"
-      class="inactive"
-      [id]="card"
-      (click)="cardClicked($event)"
-    >
-      {{ this.gameService.character }}
-    </td>
-  </tr>
-</table>
+<div class="jumbotron">
+  <table id="playing-field">
+    <tr *ngFor="let row of this.gameService.playingField.Rows">
+      <td
+        *ngFor="let card of row.cards"
+        class="inactive"
+        [id]="card"
+        (click)="cardClicked($event)"
+      >
+        {{ this.gameService.character }}
+      </td>
+    </tr>
+  </table>
+</div>

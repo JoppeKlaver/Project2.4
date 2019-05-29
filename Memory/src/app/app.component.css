@@ -1,4 +1,4 @@
-h1 {
+/* h1 {
   color: #d8d8d8;
   font: bold 6vmin SF Mono;
   text-align: center;
@@ -17,4 +17,12 @@ div#field {
 div#config {
   margin-top: -50vh;
   float: right;
+} */
+
+div#test1 {
+  background-color: aliceblue;
+}
+
+div#test2 {
+  background-color: blue;
 }
