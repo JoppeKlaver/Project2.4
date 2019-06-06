@@ -1,25 +1,31 @@
+<router-outlet></router-outlet>
 <html>
-  <body>
+
+<body>
+    <div align="left">
+        <app-login-but></app-login-but>
+    </div>
     <br />
     <div class="container">
-      <div class="row justify-content-center">
-        <h1>{{ title }}</h1>
-      </div>
-      <div class="row justify-content-center text-center">
-        <app-header></app-header>
-      </div>
-      <br />
-      <div class="row justify-content-center">
-        <div class="col-lg-3">
-          <scores></scores>
+        <div class="row justify-content-center">
+            <h1>{{ title }}</h1>
         </div>
-        <div class="col-lg-6">
-          <card></card>
+        <div class="row justify-content-center text-center">
+            <app-header></app-header>
         </div>
-        <div class="col-lg-3">
-          <config></config>
+        <br />
+        <div class="row justify-content-center">
+            <div class="col-lg-3">
+                <scores></scores>
+            </div>
+            <div class="col-lg-6">
+                <card></card>
+            </div>
+            <div class="col-lg-3">
+                <config></config>
+            </div>
         </div>
-      </div>
     </div>
-  </body>
+</body>
+
 </html>
