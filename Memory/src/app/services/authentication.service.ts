@@ -8,10 +8,10 @@ import * as moment from "moment";
   providedIn: "root"
 })
 export class AuthenticationService {
-  constructor(private auth: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
   login(username: string, password: string) {
-    return this.auth
+    return this.http
       .post<any>("http:localhost:5000/api/login", {
         name: username,
         password: password
