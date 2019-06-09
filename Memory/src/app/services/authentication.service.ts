@@ -12,7 +12,7 @@ export class AuthenticationService {
 
   login(username: string, password: string) {
     return this.http
-      .post<any>("http:localhost:5000/api/login", {
+      .post<any>("http://localhost:5000/api/login", {
         name: username,
         password: password
       })

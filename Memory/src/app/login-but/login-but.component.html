@@ -14,7 +14,7 @@
                 <input type="text" class="form-control" id="password" required>
             </div>
 
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="submit" class="btn btn-success" (click)="auth.login(username, password)">Submit</button>
         </form>
     </div>
 </ng-template>

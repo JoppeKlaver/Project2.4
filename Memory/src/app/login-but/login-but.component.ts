@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-login-but',
@@ -10,7 +11,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 export class LoginButComponent implements OnInit {
     closeResult: string;
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, public auth: AuthenticationService) { }
 
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
@@ -31,6 +32,7 @@ export class LoginButComponent implements OnInit {
   }
 
   ngOnInit() {
+      this.auth.login("test", "test");
   }
 
 }
