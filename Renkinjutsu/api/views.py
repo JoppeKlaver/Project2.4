@@ -81,7 +81,7 @@ class UserRoute(Resource):
 
 @api.route('/user/<string:public_id>')
 class SpecificUserRoute(Resource):
-    def get(self):
+    def get(self, public_id):
         user = User.query.filter_by(public_id=public_id).first()
 
         if not user:

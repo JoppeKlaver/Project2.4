@@ -5,8 +5,16 @@ verify_ssl = true
 
 [dev-packages]
 pylint = "*"
+autopep8 = "*"
 
 [packages]
+flask = "*"
+flask-sqlalchemy = "*"
+flask-marshmallow = "*"
+flask-restplus = "*"
+pyjwt = "*"
+marshmallow-sqlalchemy = "*"
+mysqlclient = "*"
 
 [requires]
 python_version = "3.7"
