@@ -22,6 +22,31 @@ authorizations = {
     }
 }
 
+# Custom jwt decorater
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = None
+
+        if 'x-access-token' in request.headers:
+            token = request.headers['x-access-token']
+
+        if not token:
+            return jsonify({'error': 'No token!'})
+
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'])
+            current_user = User.query.filter_by(
+                public_id=data['public_id']).first()
+        except:
+            print(token)
+            return jsonify({'error': 'Invalid token!'})
+
+        return f(current_user, *args, **kwargs)
+
+    return decorated
+
+
 api = Api(app,
           authorizations=authorizations,
           version="1.0",
@@ -36,7 +61,9 @@ ma = Marshmallow(app)
 # Altho this looks like circular imports it's not actually that bad since
 # I'm not actually using anything from views in api or vice versa. This is
 # a limitation from the language apparently(?).
-from views import *
+from views.login import *
+from views.user import *
+from views.user import *
 
 
 if __name__ == '__main__':

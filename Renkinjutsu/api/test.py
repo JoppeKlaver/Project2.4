@@ -54,11 +54,25 @@ ingredients = [
                recipe=test_dish)
 ]
 
+instructions = [
+    Instruction(step='1',
+                instruction='Smeer de boter op één van beide boterhammen.',
+                recipe=test_dish),
+    Instruction(step='2',
+                instruction='Doe de kaas op de besmeerde boterham.',
+                recipe=test_dish),
+    Instruction(step='3',
+                instruction='Bedek het geheel met de tweede boterham.',
+                recipe=test_dish),
+]
+
 
 def test_recipe():
     db.session.add(test_dish)
     for ingredient in ingredients:
         db.session.add(ingredient)
+    for Instruction in ingredients:
+        db.session.add(Instruction)
     db.session.commit()
 
 
