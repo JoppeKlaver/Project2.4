@@ -1,4 +1,6 @@
 from api import db, ma, api, fields
+from models.recipe import Recipe
+from models.favorites import favorites
 
 
 # SQL Alchemy
@@ -16,8 +18,14 @@ class User(db.Model):
     address = db.relationship('Address', backref='user', uselist=False)
     details = db.relationship('Details', backref='user', uselist=False)
 
+    favorites = db.relationship(
+        'Recipe', secondary=favorites, backref=db.backref('users',
+                                                          lazy='dynamic'))
+
     def __repr__(self):
-        return 'admin: {}, username: {}, password: {}'.format(self.admin, self.username, self.password)
+        return 'admin: {}, username: {}, password: {}'.format(self.admin,
+                                                              self.username,
+                                                              self.password)
 
 
 class Address(db.Model):
@@ -33,7 +41,10 @@ class Address(db.Model):
     # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return 'streetname: {}, house_number: {}, house_number_addition: {}, zip_code: {}, city: {}'.format(self.streetname, self.house_number, self.house_number_addition, self.zip_code, self.city)
+        return 'streetname: {}, house_number: {}, house_number_addition: {},\
+            zip_code: {}, city: {}'.format(self.streetname, self.house_number,
+                                           self.house_number_addition,
+                                           self.zip_code, self.city)
 
 
 class Details(db.Model):
@@ -56,7 +67,18 @@ class Details(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return 'first_name: {}, insertion: {}, last_name: {}, gender: {}, date_of_birth: {}, height: {}, weight: {}, target_weight: {}, phone_number: {}, e_mail_address: {}'.format(self.first_name, self.insertion, self.last_name, self.gender, self.date_of_birth, self.height, self.weight, self.target_weight, self.phone_number, self.e_mail_address)
+        return 'first_name: {}, insertion: {}, last_name: {}, gender: {},\
+            date_of_birth: {}, height: {}, weight: {}, target_weight: {},\
+                phone_number: {}, e_mail_address: {}'.format(self.first_name,
+                                                             self.insertion,
+                                                             self.last_name,
+                                                             self.gender,
+                                                             self.date_of_birth,
+                                                             self.height,
+                                                             self.weight,
+                                                             self.target_weight,
+                                                             self.phone_number,
+                                                             self.e_mail_address)
 
 
 # Marshmallow
@@ -131,7 +153,6 @@ class UserSchema(ma.ModelSchema):
 #         "admin": fields.Boolean('Boolean to set admin rights'),
 #         "username": fields.String('Username'),
 #         "password": fields.String('Password'),
-
 #     })
 
 rest_address = api.model(
@@ -158,16 +179,6 @@ rest_details = api.model(
         "target_weight": fields.Integer(description='Target weight', required=True),
         "height": fields.Integer(description='Current lenght', required=True)
     })
-
-# rest_user = api.model(
-#     'User',
-#     {
-#         "admin": fields.Boolean('Boolean to set admin rights'),
-#         "username": fields.String('Username'),
-#         "password": fields.String('Password'),
-#         "details": fields.List(fields.Nested(rest_details)),
-#         "address": fields.List(fields.Nested(rest_address))
-#     })
 
 rest_user = api.model(
     'User',

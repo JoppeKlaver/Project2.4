@@ -7,9 +7,13 @@ class LoginRoute(Resource):
     @api.doc('user login')
     @api.expect(validate=True)
     def get(self):
+        """ User login
+
+        Authorization by JSON Web Token. Expects username and password and \
+            returns a token.
+        """
         # post_data = request.json
         # return Auth.login_user(data=post_data)
-
         auth = request.authorization
 
         if not auth or not auth.username or not auth.password:

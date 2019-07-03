@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_restplus import Api, Resource, fields
 from functools import wraps
-from sqlalchemy.orm import joinedload, lazyload
+from sqlalchemy.orm import joinedload, lazyload, load_only
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 import uuid
@@ -21,6 +21,7 @@ authorizations = {
         'name': 'x-access-token'
     }
 }
+
 
 # Custom jwt decorater
 def token_required(f):

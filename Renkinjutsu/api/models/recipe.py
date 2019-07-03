@@ -57,8 +57,9 @@ rest_ingredient = api.model(
     'Ingredient',
     {
         "product": fields.String('The product to use'),
-        "quantity": fields.Integer('Amount of said product'),
-        "unit": fields.String('The unit in which the quantity field is quantified')
+        "quantity": fields.Integer('Amount of said product', required=False),
+        "unit": fields.String('The unit in which the quantity field is \
+            quantified', required=False)
     })
 
 rest_instruction = api.model(
