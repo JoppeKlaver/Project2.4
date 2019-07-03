@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_restplus import Api, Resource, fields
 from functools import wraps
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, lazyload
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 import uuid
@@ -52,6 +52,8 @@ api = Api(app,
           version="1.0",
           title="Project 2.4 API",
           description="API for Project 2.4")
+
+app.config['SWAGGER_UI_JSONEDITOR'] = True
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)

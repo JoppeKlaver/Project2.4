@@ -11,8 +11,10 @@ class User(db.Model):
     username = db.Column(db.String(42), unique=True)
     password = db.Column(db.String(100))
 
-    address = db.relationship('Address', backref='user')
-    details = db.relationship('Details', backref='user', lazy="joined")
+    # address = db.Column(db.Integer, db.ForeignKey('Address.id'))
+    # details = db.Column(db.Integer, db.ForeignKey('Details.id'))
+    address = db.relationship('Address', backref='user', uselist=False)
+    details = db.relationship('Details', backref='user', uselist=False)
 
     def __repr__(self):
         return 'admin: {}, username: {}, password: {}'.format(self.admin, self.username, self.password)
@@ -27,7 +29,8 @@ class Address(db.Model):
     zip_code = db.Column(db.String(100))
     city = db.Column(db.String(100))
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.ForeignKey('user.id'))
+    # user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
         return 'streetname: {}, house_number: {}, house_number_addition: {}, zip_code: {}, city: {}'.format(self.streetname, self.house_number, self.house_number_addition, self.zip_code, self.city)
@@ -68,8 +71,8 @@ class DetailsSchema(ma.ModelSchema):
 
 
 class UserSchema(ma.ModelSchema):
-    details = ma.Nested(DetailsSchema, many=True)
-    address = ma.Nested(AddressSchema, many=True)
+    details = ma.Nested(DetailsSchema, many=False, lazy='joined')
+    address = ma.Nested(AddressSchema, many=False, lazy='joined')
 
     class Meta:
         model = User
@@ -131,37 +134,53 @@ class UserSchema(ma.ModelSchema):
 
 #     })
 
-rest_user_address = api.model(
+rest_address = api.model(
     'Address',
     {
-        "city": fields.String('City'),
-        "streetname": fields.String('Streetname'),
-        "zip_code": fields.String('Zip code'),
-        "house_number": fields.Integer('House number'),
-        "house_number_addition": fields.Integer('House number addition')
+        "city": fields.String(description='City', required=True),
+        "streetname": fields.String(description='Streetname', required=True),
+        "zip_code": fields.String(description='Zip code', required=True),
+        "house_number": fields.Integer(description='House number', required=True),
+        "house_number_addition": fields.Integer(description='House number addition', required=False)
     })
 
-rest_user_details = api.model(
+rest_details = api.model(
     'Details',
     {
-        "gender": fields.String('Gender'),
-        "insertion": fields.String('Insertion'),
-        "last_name": fields.String('Last name'),
-        "weight": fields.Integer('Current weight'),
-        "phone_number": fields.Integer('Phone number'),
-        "date_of_birth": fields.Date(),
-        "e_mail_address": fields.String('E-mail address'),
-        "first_name": fields.String('First name'),
-        "target_weight": fields.Integer('Target weight'),
-        "height": fields.Integer('Current lenght')
+        "gender": fields.String(description='The users gender', required=True),
+        "insertion": fields.String(description='Insertion', required=False),
+        "last_name": fields.String(description='Last name', required=True),
+        "weight": fields.Integer(description='Current weight', required=True),
+        "phone_number": fields.Integer(description='Phone number', required=True),
+        "date_of_birth": fields.Date(description='The users date of birth in YYYY-MM-DD format', required=True),
+        "e_mail_address": fields.String(description='E-mail address', required=True),
+        "first_name": fields.String(description='First name', required=True),
+        "target_weight": fields.Integer(description='Target weight', required=True),
+        "height": fields.Integer(description='Current lenght', required=True)
     })
+
+# rest_user = api.model(
+#     'User',
+#     {
+#         "admin": fields.Boolean('Boolean to set admin rights'),
+#         "username": fields.String('Username'),
+#         "password": fields.String('Password'),
+#         "details": fields.List(fields.Nested(rest_details)),
+#         "address": fields.List(fields.Nested(rest_address))
+#     })
 
 rest_user = api.model(
     'User',
     {
-        "admin": fields.Boolean('Boolean to set admin rights'),
-        "username": fields.String('Username'),
-        "password": fields.String('Password'),
-        "details": fields.List(fields.Nested(rest_user_details)),
-        "address": fields.List(fields.Nested(rest_user_address))
+        "admin": fields.Boolean(required=True),
+        "username": fields.String(required=True),
+        "password": fields.String(required=True),
+    })
+
+
+rest_user_complete = api.inherit(
+    'User with both address and details', rest_user,
+    {
+        "details": fields.Nested(rest_details, required=False),
+        "address": fields.Nested(rest_address, required=False)
     })

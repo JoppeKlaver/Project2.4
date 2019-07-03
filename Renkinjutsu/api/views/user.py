@@ -4,17 +4,28 @@ from models.user import *
 
 @api.route('/user')
 class UserRoute(Resource):
-    @api.doc(security='apikey')
-    @token_required
-    def get(self, current_user):
-        schema = UserSchema(many=True)
-        return schema.dump(User.query
-                           .options(joinedload('details'))
-                           .options(joinedload('address'))
-                           .all()).data
+    # @api.doc(security='apikey')
+    # @token_required
+    # def get(self, current_user):
+    def get(self):
+        """ Get all users
 
-    @api.expect(rest_user)
+        Returns a list containing all users in the database.
+        """
+        schema = UserSchema(many=True)
+        # return schema.dump(User.query
+        #                    .options(lazyload('details'))
+        #                    .options(joinedload('address'))
+        #                    .all()).data()
+        q = User.query.join('address').join('details').all()
+        return schema.dump(q)
+
+    @api.expect(rest_user_complete)
     def post(self):
+        """ Create a new user
+
+        Stores a new user in the database.
+        """
         test = api.payload
         user = User(
             **{k: v for k, v in test.items()
@@ -22,14 +33,28 @@ class UserRoute(Resource):
         )
         user.public_id = str(uuid.uuid4())
         user.password = generate_password_hash(user.password, method='sha256')
+        # user_address = Address(
+        #     **{k: v for k, v in test.get('address')[0].items()
+        #        if k in {'streetname', 'house_number', 'house_number_addition',
+        #                 'zip_code', 'city'}}
+        # )
+        # user_address.user = user
+        # user_details = Details(
+        #     **{k: v for k, v in test.get('details')[0].items()
+        #        if k in {'first_name', 'insertion', 'last_name',
+        #                 'gender', 'date_of_birth', 'height',
+        #                 'weight', 'target_weight', 'phone_number',
+        #                 'e_mail_address'}}
+        # )
+        # user_details.user = user
         user_address = Address(
-            **{k: v for k, v in test.get('address')[0].items()
+            **{k: v for k, v in test.get('address').items()
                if k in {'streetname', 'house_number', 'house_number_addition',
                         'zip_code', 'city'}}
         )
         user_address.user = user
         user_details = Details(
-            **{k: v for k, v in test.get('details')[0].items()
+            **{k: v for k, v in test.get('details').items()
                if k in {'first_name', 'insertion', 'last_name',
                         'gender', 'date_of_birth', 'height',
                         'weight', 'target_weight', 'phone_number',
