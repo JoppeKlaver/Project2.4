@@ -5,10 +5,10 @@ from models.recipe import *
 
 @api.route('/recipe')
 class RecipeRoute(Resource):
-    @api.doc(security='apikey')
-    @token_required
-    def get(self, current_user):
-        # def get(self):
+    # @api.doc(security='apikey')
+    # @token_required
+    # def get(self, current_user):
+    def get(self):
         """ Get all recipes
 
         Returns a list containing all recipes in the database.
@@ -57,10 +57,10 @@ class RecipeRoute(Resource):
 
 @api.route('/recipe/<string:public_id>')
 class SpecificRecipeRoute(Resource):
-    @api.doc(security='apikey')
-    @token_required
-    def get(self, current_user, public_id):
-        # def get(self, public_id):
+    # @api.doc(security='apikey')
+    # @token_required
+    # def get(self, current_user, public_id):
+    def get(self, public_id):
         """ Get a specific recipe
 
         Return the specified recipe based on public_id

@@ -173,7 +173,7 @@ rest_details = api.model(
         "last_name": fields.String(description='Last name', required=True),
         "weight": fields.Integer(description='Current weight', required=True),
         "phone_number": fields.Integer(description='Phone number', required=True),
-        "date_of_birth": fields.Date(description='The users date of birth in YYYY-MM-DD format', required=True),
+        "date_of_birth": fields.Date(description='The users date of birth in YYYY-MM-DD format', required=True, default='1900-01-01'),
         "e_mail_address": fields.String(description='E-mail address', required=True),
         "first_name": fields.String(description='First name', required=True),
         "target_weight": fields.Integer(description='Target weight', required=True),
